@@ -271,10 +271,51 @@ uvicorn app.main:app --reload
 
 ## Testing
 
-Run the test suite:
+### Prerequisites for Testing
+1. Make sure you have Python 3.11+ installed
+2. Create and activate a virtual environment:
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Linux/Mac:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+```
+
+3. Install test dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### Running Tests
+You can run tests while the application is running in Docker - the tests use an isolated in-memory SQLite database.
+
+Run all tests:
 ```bash
 pytest
 ```
+
+Run tests with verbose output:
+```bash
+pytest -v
+```
+
+Run a specific test:
+```bash
+pytest tests/test_api.py::test_register_user
+```
+
+The test suite includes:
+- User registration
+- Authentication
+- Authorization checks
+- CRUD operations
+- Data validation
+
+Note: The tests use an in-memory SQLite database for isolation and speed, so they won't affect your running application's PostgreSQL database.
 
 ## Environment Variables
 
