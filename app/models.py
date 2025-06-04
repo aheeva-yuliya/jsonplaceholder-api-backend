@@ -24,7 +24,7 @@ class Address(Base):
     zipcode = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"))
     
-    geo = relationship("Geo", back_populates="address", uselist=False)
+    geo = relationship("Geo", back_populates="address", uselist=False, cascade="all, delete-orphan")
     user = relationship("User", back_populates="address")
 
 class Company(Base):
@@ -49,5 +49,5 @@ class User(Base):
     phone = Column(String)
     website = Column(String)
 
-    address = relationship("Address", back_populates="user", uselist=False)
-    company = relationship("Company", back_populates="user", uselist=False) 
+    address = relationship("Address", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    company = relationship("Company", back_populates="user", uselist=False, cascade="all, delete-orphan") 

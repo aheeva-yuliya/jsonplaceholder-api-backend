@@ -1,9 +1,13 @@
 import requests
 from sqlalchemy.orm import Session
 from . import models, auth
-from .database import engine, SessionLocal
+from .database import engine as default_engine, SessionLocal as DefaultSessionLocal
 
-def init_db():
+def init_db(engine=None, session_factory=None):
+    # Use provided engine/session_factory or fall back to defaults
+    engine = engine or default_engine
+    session_factory = session_factory or DefaultSessionLocal
+
     # Create tables
     models.Base.metadata.create_all(bind=engine)
     
@@ -11,7 +15,7 @@ def init_db():
     response = requests.get("https://jsonplaceholder.typicode.com/users")
     users_data = response.json()
     
-    db = SessionLocal()
+    db = session_factory()
     try:
         # Check if we already have users
         if db.query(models.User).first():
